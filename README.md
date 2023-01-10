@@ -80,7 +80,6 @@ const { execute, data, error, loading } = usePolywrapInvoke({
 });
 ```
 
-:::tip
 By default, the `usePolywrapInvoke` hook uses the first PolywrapProvider found in the DOM's hierarchy. If you'd like to specify a specific provider to be used, simply set the `provider:` property:
 
 ```jsx
@@ -93,4 +92,3 @@ const { execute, data, error, loading } = usePolywrapInvoke({
   },
 });
 ```
-:::
