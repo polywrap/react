@@ -35,7 +35,7 @@ describe("usePolywrapInvoke hook", () => {
     await initTestEnvironment();
 
     const simpleStoragePath = path.resolve(path.join(__dirname, 'test-cases/simple-storage'));
-    await buildWrapper(simpleStoragePath);
+    await buildWrapper(simpleStoragePath, undefined, true);
     uri = `fs/${simpleStoragePath}/build`;
 
     envs = createEnvs(providers.ipfs);
