@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/polywrap/monorepo.git"
+    "url": "https://github.com/polywrap/react.git"
   },
   "main": "build/index.js",
   "files": [
@@ -14,7 +14,6 @@
   "scripts": {
     "build": "rimraf ./build && tsc --project tsconfig.build.json",
     "lint": "eslint --color -c ./eslintrc.js src/",
-    "test:ci": "yarn test",
     "test": "jest --passWithNoTests --runInBand --verbose --env=./src/__tests__/env/index.ts",
     "test:watch": "yarn test --watch"
   },
