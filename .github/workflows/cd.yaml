@@ -1,4 +1,4 @@
-name: @polywrap/react-cd
+name: polywrap-react-cd
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   cd:
-    name: @polywrap/react-cd
+    name: polywrap-react-cd
     if: |
       github.event.pull_request.merged &&
       github.event.pull_request.user.login != 'github-actions'

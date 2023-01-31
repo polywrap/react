@@ -1,54 +1,45 @@
 import {
-  usePolywrapQuery,
   PolywrapProvider,
   usePolywrapClient,
   createPolywrapProvider,
+  usePolywrapInvoke,
 } from "../../";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import React from "react";
 import { Env, IUriPackage, Uri } from "@polywrap/core-js";
 
 const SimpleStorage = ({ uri }: { uri: string }) => {
-  const { execute: deployContract, data: deployData } = usePolywrapQuery<{
-    deployContract: string;
-  }>({
+  const { execute: deployContract, data: deployData } = usePolywrapInvoke<string>({
     uri,
-    query: `mutation {
-      deployContract(
-        connection: {
-          networkNameOrChainId: "testnet"
-        }
-      )
-    }`,
+    method: "deployContract",
+    args: {
+      connection: {
+        networkNameOrChainId: "testnet"
+      }
+    }
   });
 
-  const { execute: setData } = usePolywrapQuery({
+  const { execute: setData } = usePolywrapInvoke({
     uri,
-    query: `mutation {
-      setData(
-        address: $address
-        value: $value
-        connection: {
-          networkNameOrChainId: "testnet"
-        }
-      )
-    }`,
-    variables: {
+    method: "setData",
+    args: {
+      address: deployData,
       value: 5,
-      address: deployData?.deployContract,
-    },
+      connection: {
+        networkNameOrChainId: "testnet"
+      }
+    }
   });
 
-  const { execute: getStorageData, data: currentStorage } = usePolywrapQuery({
+  const { execute: getStorageData, data: currentStorage } = usePolywrapInvoke({
     uri,
-    query: `query {
-      getData(
-        address: "${deployData?.deployContract}"
-        connection: {
-          networkNameOrChainId: "testnet"
-        }
-      )
-    }`,
+    method: "getData",
+    args: {
+      address: deployData,
+      connection: {
+        networkNameOrChainId: "testnet"
+      }
+    }
   });
 
   const client1 = usePolywrapClient();
@@ -65,10 +56,10 @@ const SimpleStorage = ({ uri }: { uri: string }) => {
         <button onClick={() => deployContract()}>Deploy</button>
       ) : (
         <>
-          <p>SimpleStorage Contract: {deployData.deployContract}</p>
+          <p>SimpleStorage Contract: {deployData}</p>
           <button onClick={updateStorageData}>Set the storage to 5!</button>
           <button onClick={() => getStorageData()}>Check storage</button>
-          <div>{currentStorage?.getData} </div>
+          <div>{currentStorage} </div>
           <div>{client1 ? "Client1 Found" : ""}</div>
           <div>{client2 ? "Client2 Found" : ""}</div>
         </>

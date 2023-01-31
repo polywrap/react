@@ -35,7 +35,7 @@ describe("usePolywrapInvoke hook", () => {
     await initTestEnvironment();
 
     const simpleStoragePath = path.resolve(path.join(__dirname, 'test-cases/simple-storage'));
-    await buildWrapper(simpleStoragePath);
+    await buildWrapper(simpleStoragePath, undefined, true);
     uri = `fs/${simpleStoragePath}/build`;
 
     envs = createEnvs(providers.ipfs);
@@ -53,7 +53,7 @@ describe("usePolywrapInvoke hook", () => {
     await stopTestEnvironment();
   });
 
-  async function sendQuery<TData>(options: UsePolywrapInvokeProps) {
+  async function executeInvoke<TData>(options: UsePolywrapInvokeProps) {
     const hook = () => usePolywrapInvoke<TData>(options);
 
     const { result: hookResult } = renderHook(hook, WrapperProvider);
@@ -67,7 +67,7 @@ describe("usePolywrapInvoke hook", () => {
     return result;
   }
 
-  async function sendQueryWithExecVariables<TData>(
+  async function executeInvokeWithExecVariables<TData>(
     options: UsePolywrapInvokeProps
   ) {
     const hook = () =>
@@ -99,7 +99,7 @@ describe("usePolywrapInvoke hook", () => {
       },
     };
 
-    const { data: address } = await sendQuery<string>(deployInvoke);
+    const { data: address } = await executeInvoke<string>(deployInvoke);
 
     const setStorageInvocation: UsePolywrapInvokeProps = {
       uri,
@@ -113,7 +113,7 @@ describe("usePolywrapInvoke hook", () => {
       },
     };
 
-    const result = await sendQuery(setStorageInvocation);
+    const result = await executeInvoke(setStorageInvocation);
     expect(result.error).toBeFalsy();
     expect(result.data).toMatch(/0x/);
 
@@ -128,7 +128,7 @@ describe("usePolywrapInvoke hook", () => {
       },
     };
 
-    const { data: getDataData } = await sendQuery<number>(
+    const { data: getDataData } = await executeInvoke<number>(
       getStorageDataInvocation
     );
     expect(getDataData).toBe(5);
@@ -185,7 +185,7 @@ describe("usePolywrapInvoke hook", () => {
       },
     };
 
-    const { data: address } = await sendQueryWithExecVariables<string>(
+    const { data: address } = await executeInvokeWithExecVariables<string>(
       deployInvoke
     );
 
@@ -201,7 +201,7 @@ describe("usePolywrapInvoke hook", () => {
       },
     };
 
-    const result = await sendQueryWithExecVariables(setStorageInvocation);
+    const result = await executeInvokeWithExecVariables(setStorageInvocation);
     expect(result.error).toBeFalsy();
     expect(result.data).toMatch(/0x/);
 
@@ -216,7 +216,7 @@ describe("usePolywrapInvoke hook", () => {
       },
     };
 
-    const { data: getDataData } = await sendQueryWithExecVariables<number>(
+    const { data: getDataData } = await executeInvokeWithExecVariables<number>(
       getStorageDataInvocation
     );
     expect(getDataData).toBe(3);

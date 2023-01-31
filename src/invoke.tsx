@@ -9,7 +9,7 @@ export interface UsePolywrapInvokeState<TData = unknown> {
   loading: boolean;
 }
 
-export const INITIAL_QUERY_STATE: UsePolywrapInvokeState = {
+export const INITIAL_INVOKE_STATE: UsePolywrapInvokeState = {
   data: undefined,
   error: undefined,
   loading: false,
@@ -36,9 +36,9 @@ export function usePolywrapInvoke<
   const provider = "provider" in props ? props.provider : undefined;
   const client = usePolywrapClient({ provider });
 
-  // Initialize the UsePolywrapQueryState
+  // Initialize the UsePolywrapInvokeState
   const { state, dispatch } = useStateReducer<UsePolywrapInvokeState<TData>>(
-    INITIAL_QUERY_STATE as UsePolywrapInvokeState<TData>
+    INITIAL_INVOKE_STATE as UsePolywrapInvokeState<TData>
   );
 
   const execute = async (args?: Record<string, unknown> | Uint8Array) => {
