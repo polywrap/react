@@ -6,11 +6,12 @@ import {
 } from "../../";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import React from "react";
-import { Env, IUriPackage, Uri } from "@polywrap/core-js";
+import { Uri } from "@polywrap/core-js";
+import { BuilderConfig } from "@polywrap/client-js";
 
 const SimpleStorage = ({ uri }: { uri: string }) => {
   const { execute: deployContract, data: deployData } = usePolywrapInvoke<string>({
-    uri,
+    uri: Uri.from(uri),
     method: "deployContract",
     args: {
       connection: {
@@ -20,7 +21,7 @@ const SimpleStorage = ({ uri }: { uri: string }) => {
   });
 
   const { execute: setData } = usePolywrapInvoke({
-    uri,
+    uri: Uri.from(uri),
     method: "setData",
     args: {
       address: deployData,
@@ -32,7 +33,7 @@ const SimpleStorage = ({ uri }: { uri: string }) => {
   });
 
   const { execute: getStorageData, data: currentStorage } = usePolywrapInvoke({
-    uri,
+    uri: Uri.from(uri),
     method: "getData",
     args: {
       address: deployData,
@@ -73,15 +74,17 @@ const CustomProvider = createPolywrapProvider("custom");
 export const SimpleStorageContainer = ({
   envs,
   packages,
-  ensUri,
+  uri,
+  interfaces
 }: {
-  envs: Env[];
-  packages: IUriPackage<Uri | string>[];
-  ensUri: string;
+  envs: BuilderConfig["envs"];
+  packages: BuilderConfig["packages"];
+  interfaces: BuilderConfig["interfaces"];
+  uri: string;
 }) => (
   <CustomProvider>
-    <PolywrapProvider packages={packages} envs={envs}>
-      <SimpleStorage uri={ensUri} />
+    <PolywrapProvider packages={packages} envs={envs} interfaces={interfaces}>
+      <SimpleStorage uri={uri} />
     </PolywrapProvider>
   </CustomProvider>
 );

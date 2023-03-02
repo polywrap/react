@@ -4,31 +4,26 @@ import {
   createPolywrapProvider,
   usePolywrapClient
 } from "..";
-import { createPlugins, createEnvs } from "./config";
+import { getClientConfig } from "./config";
 
-import { Env, IUriPackage, Uri } from "@polywrap/core-js";
 import {
-  ensAddresses,
-  providers,
-  initTestEnvironment,
-  stopTestEnvironment,
+  runCLI,
 } from "@polywrap/test-env-js";
-
 import { renderHook, RenderHookOptions } from "@testing-library/react-hooks";
+import { BuilderConfig } from '@polywrap/client-js';
 
 jest.setTimeout(360000);
 
 describe("usePolywrapClient hook", () => {
-  let envs: Env[];
-  let packages: IUriPackage<Uri | string>[];
+  const config = getClientConfig();
+  let envs: BuilderConfig["envs"] = config.envs;
+  let packages: BuilderConfig["packages"] = config.packages;
   let WrapperProvider: RenderHookOptions<unknown>;
 
   beforeAll(async () => {
-    await initTestEnvironment();
-
-    envs = createEnvs(providers.ipfs);
-
-    packages = createPlugins(ensAddresses.ensAddress, providers.ethereum);
+    await runCLI({
+      args: ["infra", "up", "--modules", "eth-ens-ipfs"],
+    });
 
     WrapperProvider = {
       wrapper: PolywrapProvider,
@@ -40,7 +35,9 @@ describe("usePolywrapClient hook", () => {
   });
 
   afterAll(async () => {
-    await stopTestEnvironment();
+    await runCLI({
+      args: ["infra", "down", "--modules", "eth-ens-ipfs"],
+    }); 
   });
 
   it("Should throw error because there's no provider with expected key ", async () => {

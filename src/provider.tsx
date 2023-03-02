@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import React from "react";
-import { PolywrapClient, PolywrapClientConfig } from "@polywrap/client-js";
+import { BuilderConfig, ClientConfigBuilder, PolywrapClient } from "@polywrap/client-js";
 
 type ClientContext = React.Context<PolywrapClient>
 
@@ -15,7 +15,7 @@ interface PolywrapProviderMap {
 
 export const PROVIDERS: PolywrapProviderMap = {};
 
-interface PolywrapProviderProps extends Partial<PolywrapClientConfig> { }
+interface PolywrapProviderProps extends Partial<BuilderConfig> { }
 
 export type PolywrapProviderFC = React.FC<PolywrapProviderProps>;
 
@@ -33,15 +33,7 @@ export function createPolywrapProvider(
     ClientContext: React.createContext({} as PolywrapClient)
   };
 
-  return ({
-    envs,
-    redirects,
-    wrappers,
-    packages,
-    interfaces,
-    tracerConfig,
-    children,
-  }) => {
+  return ({ children, ...config }) => {
     const [clientCreated, setClientCreated] = React.useState(false);
 
     React.useEffect(() => {
@@ -52,15 +44,11 @@ export function createPolywrapProvider(
         );
       }
 
+      const builder = new ClientConfigBuilder();
+      
+      builder.addDefaults().add(config);
       // Instantiate the client
-      PROVIDERS[name].client = new PolywrapClient({
-        redirects,
-        wrappers,
-        packages,
-        interfaces,
-        envs,
-        tracerConfig,
-      });
+      PROVIDERS[name].client = new PolywrapClient(builder.build());
 
       setClientCreated(true);
 

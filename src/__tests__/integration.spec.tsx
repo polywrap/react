@@ -1,55 +1,47 @@
 import { createPolywrapProvider } from "..";
 import { SimpleStorageContainer } from "./app/SimpleStorage";
-import { createEnvs, createPlugins } from "./config";
 
-import {
-  initTestEnvironment,
-  stopTestEnvironment,
-  buildAndDeployWrapper,
-  ensAddresses,
-  providers,
-} from "@polywrap/test-env-js";
-import { Env, IUriPackage, Uri } from "@polywrap/core-js";
+import { runCLI } from "@polywrap/test-env-js";
 import path from "path";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+import { BuilderConfig } from "@polywrap/client-js";
+import { getClientConfig } from "./config";
 jest.setTimeout(360000);
 
 describe("Polywrap React Integration", () => {
-  let envs: Env[];
-  let packages: IUriPackage<Uri | string>[];
-  let ensUri: string;
-  let wrapper: {
-    ensDomain: string;
-    ipfsCid: string;
-  };
+  const simpleStoragePath = path.resolve(
+    path.join(__dirname, 'test-cases/simple-storage')
+  );
+  const config = getClientConfig();
+  let envs: BuilderConfig["envs"] = config.envs;
+  let packages: BuilderConfig["packages"] = config.packages;
+  let interfaces: BuilderConfig["interfaces"] = config.interfaces;
+  let uri: string = `fs/${simpleStoragePath}/build`;
 
   beforeAll(async () => {
-    await initTestEnvironment();
-
-    envs = createEnvs(providers.ipfs);
-
-    packages = createPlugins(ensAddresses.ensAddress, providers.ethereum);
-
-    wrapper = await buildAndDeployWrapper({
-      wrapperAbsPath: path.resolve(path.join(__dirname, 'test-cases/simple-storage')),
-      ipfsProvider: providers.ipfs,
-      ethereumProvider: providers.ethereum,
-      codegen: true
+    await runCLI({
+      args: ["infra", "up", "--modules", "eth-ens-ipfs"],
     });
 
-    ensUri = `ens/testnet/${wrapper.ensDomain}`;
+    await runCLI({
+      args: ["build"],
+      cwd: simpleStoragePath
+    });
+
   });
 
   afterAll(async () => {
-    await stopTestEnvironment();
+    await runCLI({
+      args: ["infra", "down", "--modules", "eth-ens-ipfs"],
+    });  
   });
 
   it("Deploys, read and write on Smart Contract ", async () => {
     render(
-      <SimpleStorageContainer envs={envs} packages={packages} ensUri={ensUri} />
+      <SimpleStorageContainer envs={envs} packages={packages} interfaces={interfaces} uri={uri} />
     );
 
     fireEvent.click(screen.getByText("Deploy"));

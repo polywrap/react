@@ -1,51 +1,48 @@
-import { Env, IUriPackage, Uri } from "@polywrap/core-js";
 import { plugin as ensResolverPlugin } from "@polywrap/ens-resolver-plugin-js";
 import {
   Connection,
   Connections,
-  plugin as ethereumPlugin,
-} from "@polywrap/ethereum-plugin-js";
-import { plugin as ipfsPlugin } from "@polywrap/ipfs-plugin-js";
-import { defaultIpfsProviders } from "@polywrap/client-config-builder-js";
+  ethereumProviderPlugin,
+} from "@polywrap/ethereum-provider-js";
+import { ClientConfigBuilder, defaultIpfsProviders, IClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { ensAddresses, providers } from "@polywrap/test-env-js";
 
-export function createPlugins(
-  ensAddress: string,
-  ethereumProvider: string
-): IUriPackage<Uri | string>[] {
-  return [
-    {
-      uri: "wrap://ens/ethereum.polywrap.eth",
-      package: ethereumPlugin({
-        connections: new Connections({
-          networks: {
-            testnet: new Connection({ provider: ethereumProvider }),
-          },
-        }),
-      }),
-    },
-    {
-      uri: "wrap://ens/ipfs.polywrap.eth",
-      package: ipfsPlugin({}),
-    },
-    {
-      uri: "wrap://ens/ens-resolver.polywrap.eth",
-      package: ensResolverPlugin({
-        addresses: {
-          testnet: ensAddress,
-        },
-      }),
-    },
-  ];
+export function getClientConfig() {
+  const builder = configure(new ClientConfigBuilder())
+  builder.build()
+  return {
+    packages: builder.config.packages,
+    envs: builder.config.envs,
+    interfaces: builder.config.interfaces
+  }
 }
 
-export function createEnvs(ipfsProvider: string): Env[] {
-  return [
-    {
-      uri: "wrap://ens/ipfs.polywrap.eth",
-      env: {
-        provider: ipfsProvider,
+export function configure(builder: IClientConfigBuilder): IClientConfigBuilder {
+  builder
+    .addDefaults()
+    .addPackages({
+      "wrap://ens/wraps.eth:ethereum-provider@1.1.0": ethereumProviderPlugin({
+        connections: new Connections({
+          networks: {
+            testnet: new Connection({ provider: providers.ethereum }),
+          }
+        }),
+      }),
+      "wrap://ens/ens-resolver.polywrap.eth": ensResolverPlugin({
+        addresses: {
+          testnet: ensAddresses.ensAddress
+        },
+      }),
+    })
+    .addEnv("wrap://package/ipfs-resolver", {
+        provider: providers.ipfs,
         fallbackProviders: defaultIpfsProviders,
-      },
-    },
-  ];
+      }
+    )
+    .addInterfaceImplementation(
+      "wrap://ens/wraps.eth:ethereum-provider@1.1.0",
+      "wrap://ens/wraps.eth:ethereum-provider@1.1.0"
+      )
+
+  return builder;
 }

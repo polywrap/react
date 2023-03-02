@@ -4,15 +4,11 @@ import {
   createPolywrapProvider,
 } from "..";
 import { UsePolywrapInvokeProps } from "../invoke";
-import { createPlugins, createEnvs } from "./config";
 
-import { Env, IUriPackage, Uri } from "@polywrap/core-js";
+import { Uri } from "@polywrap/core-js";
 import {
-  initTestEnvironment,
   stopTestEnvironment,
-  ensAddresses,
-  providers,
-  buildWrapper,
+  runCLI,
 } from "@polywrap/test-env-js";
 import path from "path";
 
@@ -22,29 +18,38 @@ import {
   RenderHookOptions,
   cleanup,
 } from "@testing-library/react-hooks";
+import { getClientConfig } from "./config";
+import { BuilderConfig } from "@polywrap/client-js";
 
 jest.setTimeout(360000);
 
 describe("usePolywrapInvoke hook", () => {
-  let uri: string;
-  let envs: Env[];
-  let packages: IUriPackage<Uri | string>[];
+  const simpleStoragePath = path.resolve(
+    path.join(__dirname, 'test-cases/simple-storage')
+  );
+  const config = getClientConfig();
+  let envs: BuilderConfig["envs"] = config.envs;
+  let packages: BuilderConfig["packages"] = config.packages;
+  let interfaces: BuilderConfig["interfaces"] = config.interfaces;
+  let uri: Uri = Uri.from(`fs/${simpleStoragePath}/build`);
   let WrapperProvider: RenderHookOptions<unknown>;
 
   beforeAll(async () => {
-    await initTestEnvironment();
+    await runCLI({
+      args: ["infra", "up", "--modules", "eth-ens-ipfs"],
+    });
 
-    const simpleStoragePath = path.resolve(path.join(__dirname, 'test-cases/simple-storage'));
-    await buildWrapper(simpleStoragePath, undefined, true);
-    uri = `fs/${simpleStoragePath}/build`;
+    await runCLI({
+      args: ["build"],
+      cwd: simpleStoragePath
+    });
 
-    envs = createEnvs(providers.ipfs);
-    packages = createPlugins(ensAddresses.ensAddress, providers.ethereum);
     WrapperProvider = {
       wrapper: PolywrapProvider,
       initialProps: {
         envs,
         packages,
+        interfaces
       },
     };
   });
@@ -100,7 +105,6 @@ describe("usePolywrapInvoke hook", () => {
     };
 
     const { data: address } = await executeInvoke<string>(deployInvoke);
-
     const setStorageInvocation: UsePolywrapInvokeProps = {
       uri,
       method: "setData",
@@ -193,7 +197,7 @@ describe("usePolywrapInvoke hook", () => {
       uri,
       method: "setData",
       args: {
-        address: address,
+        address,
         value: 3,
         connection: {
           networkNameOrChainId: "testnet",

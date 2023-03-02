@@ -15,7 +15,7 @@ export const INITIAL_INVOKE_STATE: UsePolywrapInvokeState = {
   loading: false,
 };
 
-export interface UsePolywrapInvokeProps extends InvokeOptions<string> {
+export interface UsePolywrapInvokeProps extends InvokeOptions {
   provider?: string;
 }
 
@@ -32,7 +32,7 @@ export interface UsePolywrapInvoke<TData = unknown>
 
 export function usePolywrapInvoke<
   TData = unknown
->(props: UsePolywrapInvokeProps | InvokeOptions<string>): UsePolywrapInvoke<TData> {
+>(props: UsePolywrapInvokeProps | InvokeOptions): UsePolywrapInvoke<TData> {
   const provider = "provider" in props ? props.provider : undefined;
   const client = usePolywrapClient({ provider });
 
@@ -45,6 +45,7 @@ export function usePolywrapInvoke<
     dispatch({ loading: true });
     const result = await client.invoke<TData>({
       ...props,
+      uri: props.uri.uri,
       args: isBuffer(args) ? args : {
         ...props.args,
         ...args,
