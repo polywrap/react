@@ -45,10 +45,10 @@ export function createPolywrapProvider(
       }
 
       const builder = new ClientConfigBuilder();
-      
-      builder.addDefaults().add(config);
+      builder.add(config);
+      const clientConfig = builder.build(); 
       // Instantiate the client
-      PROVIDERS[name].client = new PolywrapClient(builder.build());
+      PROVIDERS[name].client = new PolywrapClient(clientConfig);
 
       setClientCreated(true);
 

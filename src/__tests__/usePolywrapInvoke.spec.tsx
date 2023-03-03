@@ -93,7 +93,7 @@ describe("usePolywrapInvoke hook", () => {
     return result;
   }
 
-  it("Should update storage data to five", async () => {
+  it("Should execute invocation by passing arguments in the execute & normal function", async () => {
     const deployInvoke: UsePolywrapInvokeProps = {
       uri,
       method: "deployContract",
@@ -136,6 +136,38 @@ describe("usePolywrapInvoke hook", () => {
       getStorageDataInvocation
     );
     expect(getDataData).toBe(5);
+
+    const setStorageInvocationWithExec: UsePolywrapInvokeProps = {
+      uri,
+      method: "setData",
+      args: {
+        address,
+        value: 3,
+        connection: {
+          networkNameOrChainId: "testnet",
+        },
+      },
+    };
+
+    const resultWithExec = await executeInvokeWithExecVariables(setStorageInvocationWithExec);
+    expect(resultWithExec.error).toBeFalsy();
+    expect(resultWithExec.data).toMatch(/0x/);
+
+    const getStorageDataInvocationWithExec: UsePolywrapInvokeProps = {
+      uri,
+      method: "getData",
+      args: {
+        address: address,
+        connection: {
+          networkNameOrChainId: "testnet",
+        },
+      },
+    };
+
+    const { data: getDataDataWithExec } = await executeInvokeWithExecVariables<number>(
+      getStorageDataInvocationWithExec
+    );
+    expect(getDataDataWithExec).toBe(3);
   });
 
   it("Should throw error because there's no provider with expected key ", async () => {
@@ -176,53 +208,5 @@ describe("usePolywrapInvoke hook", () => {
     expect(result.error?.message).toMatch(
       /The requested PolywrapProvider \"other\" was not found within the DOM hierarchy/
     );
-  });
-
-  it("Should update storage data to three by setting value through variables passed to exec", async () => {
-    const deployInvoke: UsePolywrapInvokeProps = {
-      uri,
-      method: "deployContract",
-      args: {
-        connection: {
-          networkNameOrChainId: "testnet",
-        },
-      },
-    };
-
-    const { data: address } = await executeInvokeWithExecVariables<string>(
-      deployInvoke
-    );
-
-    const setStorageInvocation: UsePolywrapInvokeProps = {
-      uri,
-      method: "setData",
-      args: {
-        address,
-        value: 3,
-        connection: {
-          networkNameOrChainId: "testnet",
-        },
-      },
-    };
-
-    const result = await executeInvokeWithExecVariables(setStorageInvocation);
-    expect(result.error).toBeFalsy();
-    expect(result.data).toMatch(/0x/);
-
-    const getStorageDataInvocation: UsePolywrapInvokeProps = {
-      uri,
-      method: "getData",
-      args: {
-        address: address,
-        connection: {
-          networkNameOrChainId: "testnet",
-        },
-      },
-    };
-
-    const { data: getDataData } = await executeInvokeWithExecVariables<number>(
-      getStorageDataInvocation
-    );
-    expect(getDataData).toBe(3);
   });
 });
