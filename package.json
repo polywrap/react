@@ -19,13 +19,13 @@
     "publish:npm": "yarn publish --access public --non-interactive --verbose"
   },
   "dependencies": {
-    "@polywrap/client-js": "0.10.0-pre.10",
-    "@polywrap/core-js": "0.10.0-pre.10"
+    "@polywrap/client-js": "0.10.0-pre.11",
+    "@polywrap/core-js": "0.10.0-pre.11"
   },
   "devDependencies": {
     "@polywrap/ens-resolver-plugin-js": "0.10.0-pre.10",
-    "@polywrap/ethereum-provider-js": "0.2.2",
-    "@polywrap/test-env-js": "0.10.0-pre.10",
+    "@polywrap/ethereum-provider-js": "0.2.3",
+    "@polywrap/test-env-js": "0.10.0-pre.11",
     "@testing-library/react": "11.2.5",
     "@testing-library/react-hooks": "5.1.0",
     "@types/jest": "26.0.8",
