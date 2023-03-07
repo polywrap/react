@@ -1340,12 +1340,12 @@
     "@polywrap/plugin-js" "0.10.0-pre.10"
 
 "@polywrap/http-plugin-js@~0.10.0-pre":
-  version "0.10.0-pre.7"
-  resolved "https://registry.yarnpkg.com/@polywrap/http-plugin-js/-/http-plugin-js-0.10.0-pre.7.tgz#2ce3106f1e32c78e68b71d58f2331bd79b88f659"
-  integrity sha512-1WXrx9etHq2qd88XzxC1ofqZA+RI4f5rz8BzH2e9lIzxiBQf4m8zj00dIB2xm+IaEAMq48l9u18CNiYDowIXUg==
+  version "0.10.0-pre.10"
+  resolved "https://registry.yarnpkg.com/@polywrap/http-plugin-js/-/http-plugin-js-0.10.0-pre.10.tgz#b746af5c0afbfa4d179c6a1c923708257cb2277e"
+  integrity sha512-xBFYAISARtHQmDKssBYK0FrJVDltI8BqseYA5eDcxipd6nd8CTAojqh9FFxeOGdxpMM6Vq940w6ggrqo0BXqAg==
   dependencies:
-    "@polywrap/core-js" "0.10.0-pre.7"
-    "@polywrap/plugin-js" "0.10.0-pre.7"
+    "@polywrap/core-js" "0.10.0-pre.10"
+    "@polywrap/plugin-js" "0.10.0-pre.10"
     axios "0.21.4"
     form-data "4.0.0"
 
@@ -1779,9 +1779,9 @@
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
 "@types/node@*":
-  version "18.14.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.14.4.tgz#0e64ec0b35a772e1e3d849f9a0ff61782d0cb647"
-  integrity sha512-VhCw7I7qO2X49+jaKcAUwi3rR+hbxT5VcYF493+Z5kMLI0DL568b7JI4IDJaxWFH0D/xwmGJNoXisyX+w7GH/g==
+  version "18.14.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.14.6.tgz#ae1973dd2b1eeb1825695bb11ebfb746d27e3e93"
+  integrity sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -2471,9 +2471,9 @@ camelcase@^6.0.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001449:
-  version "1.0.30001458"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001458.tgz#871e35866b4654a7d25eccca86864f411825540c"
-  integrity sha512-lQ1VlUUq5q9ro9X+5gOEyH7i3vm+AYVT1WDCVB69XOZ17KZRhnZ9J0Sqz7wTHQaLBJccNCHq8/Ww5LlOIZbB0w==
+  version "1.0.30001462"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001462.tgz#b2e801e37536d453731286857c8520d3dcee15fe"
+  integrity sha512-PDd20WuOBPiasZ7KbFnmQRyuLE7cFXW2PVd7dmALzbkUXEP46upAuCDm9eY9vho8fgNMGmbAX92QBZHzcnWIqw==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -2944,9 +2944,9 @@ electron-fetch@^1.7.2:
     encoding "^0.1.13"
 
 electron-to-chromium@^1.4.284:
-  version "1.4.316"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.316.tgz#7f2cfda199ae1a32a69b3eb9046b8b0640086064"
-  integrity sha512-9urqVpdeJYAwVL/sBjsX2pSlgYI/b4nOqC6UaNa0xlq1VUbXLRhERWlxcQ4FWfUOQQxSSxN/taFtapEcwg5tVA==
+  version "1.4.323"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.323.tgz#5f91cb03e6b88c0a208ff66c0203a24c6e689506"
+  integrity sha512-+a0hMEQxE8u1F1vOHcE0M18kQ2+4AwOXdRrU4avZ1LeR/sa9WAallYE3uES/PNcEGt/wCFcOgWcArSLx5C+WNQ==
 
 elliptic@6.5.4:
   version "6.5.4"
@@ -5295,9 +5295,9 @@ lru-cache@^6.0.0:
     yallist "^4.0.0"
 
 lz-string@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
-  integrity sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.5.0.tgz#c1ab50f77887b712621201ba9fd4e3a6ed099941"
+  integrity sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==
 
 mafmt@^7.1.0:
   version "7.1.0"
@@ -6759,9 +6759,9 @@ spawn-command@0.0.2-1:
   integrity sha512-n98l9E2RMSJ9ON1AKisHzz7V42VDiBQGY6PB1BwRglz99wpVsSuGzQ+jOi6lFXBGVTCrRpltvjm+/XA+tpeJrg==
 
 spdx-correct@^3.0.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.1.1.tgz#dece81ac9c1e6713e5f7d1b6f17d468fa53d89a9"
-  integrity sha512-cOYcUWwhCuHCXi49RhFRCyJEK3iPj1Ziz9DpViV3tbZOwXD49QzIN3MpOLJNxh2qwq2lJJZaKMVw9qNi4jTC0w==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.2.0.tgz#4f5ab0668f0059e34f9c00dce331784a12de4e9c"
+  integrity sha512-kN9dJbvnySHULIluDHy32WHRUu3Og7B9sbY7tsFLctQkIqnMh3hErYgdMjTYuqmcXX+lK5T1lnUt3G7zNswmZA==
   dependencies:
     spdx-expression-parse "^3.0.0"
     spdx-license-ids "^3.0.0"
