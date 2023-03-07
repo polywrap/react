@@ -8,7 +8,6 @@ import { providers } from "@polywrap/test-env-js";
 
 export function getClientConfig() {
   const builder = configure(new ClientConfigBuilder())
-  builder.build()
   return {
     packages: builder.config.packages,
     envs: builder.config.envs,

@@ -12,14 +12,13 @@ import { getClientConfig } from "./config";
 jest.setTimeout(1800000);
 
 describe("Polywrap React Integration", () => {
-  const simpleStoragePath = path.resolve(
-    path.join(__dirname, 'test-cases/simple-storage')
-  );
+  const dirname = path.resolve(__dirname);
+  const simpleStoragePath = path.join(dirname, "test-cases", "simple-storage");
   const config = getClientConfig();
   let envs: BuilderConfig["envs"] = config.envs;
   let packages: BuilderConfig["packages"] = config.packages;
   let interfaces: BuilderConfig["interfaces"] = config.interfaces;
-  let uri: string = `file${simpleStoragePath}/build`;
+  let uri: string = `fs${simpleStoragePath}/build`;
 
   beforeAll(async () => {
     await runCLI({
@@ -41,7 +40,12 @@ describe("Polywrap React Integration", () => {
 
   it("Deploys, read and write on Smart Contract ", async () => {
     render(
-      <SimpleStorageContainer envs={envs} packages={packages} interfaces={interfaces} uri={uri} />
+      <SimpleStorageContainer
+        envs={envs}
+        packages={packages}
+        interfaces={interfaces}
+        uri={uri}
+      />
     );
 
     fireEvent.click(screen.getByText("Deploy"));
