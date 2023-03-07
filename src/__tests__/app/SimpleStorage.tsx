@@ -10,7 +10,7 @@ import { Uri } from "@polywrap/core-js";
 import { BuilderConfig } from "@polywrap/client-js";
 
 const SimpleStorage = ({ uri }: { uri: string }) => {
-  const { execute: deployContract, data: deployData } = usePolywrapInvoke<string>({
+  const { execute: deployContract, data: deployData, error } = usePolywrapInvoke<string>({
     uri: Uri.from(uri),
     method: "deployContract",
     args: {
@@ -51,10 +51,17 @@ const SimpleStorage = ({ uri }: { uri: string }) => {
     await getStorageData();
   };
 
+  const d = async () => {
+    const z = await deployContract();
+    console.log(z)
+    console.log("data: ", deployData)
+    console.log("error: ", error)
+  }
+
   return (
     <>
       {!deployData ? (
-        <button onClick={() => deployContract()}>Deploy</button>
+        <button onClick={async () => await d()}>Deploy</button>
       ) : (
         <>
           <p>SimpleStorage Contract: {deployData}</p>
