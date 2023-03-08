@@ -39,11 +39,6 @@ describe("usePolywrapInvoke hook", () => {
       args: ["infra", "up", "--modules", "eth-ens-ipfs"],
     });
 
-    await runCLI({
-      args: ["build"],
-      cwd: simpleStoragePath
-    });
-
     WrapperProvider = {
       wrapper: PolywrapProvider,
       initialProps: {

@@ -5,7 +5,7 @@ import { InvokeOptions, isBuffer, InvokeResult } from "@polywrap/core-js";
 
 export interface UsePolywrapInvokeState<TData = unknown> {
   data?: TData;
-  error?: Error
+  error?: Error;
   loading: boolean;
 }
 
@@ -30,9 +30,9 @@ export interface UsePolywrapInvoke<TData = unknown>
   ) => Promise<InvokeResult<TData>>;
 }
 
-export function usePolywrapInvoke<
-  TData = unknown
->(props: UsePolywrapInvokeProps | InvokeOptions): UsePolywrapInvoke<TData> {
+export function usePolywrapInvoke<TData = unknown>(
+  props: UsePolywrapInvokeProps | InvokeOptions
+): UsePolywrapInvoke<TData> {
   const provider = "provider" in props ? props.provider : undefined;
   const client = usePolywrapClient({ provider });
 
@@ -46,10 +46,12 @@ export function usePolywrapInvoke<
     const result = await client.invoke<TData>({
       ...props,
       uri: props.uri.uri,
-      args: isBuffer(args) ? args : {
-        ...props.args,
-        ...args,
-      },
+      args: isBuffer(args)
+        ? args
+        : {
+            ...props.args,
+            ...args,
+          },
     });
     if (result.ok) {
       dispatch({ data: result.value, loading: false });

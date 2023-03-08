@@ -25,12 +25,6 @@ describe("Polywrap React Integration", () => {
     await runCLI({
       args: ["infra", "up", "--modules", "eth-ens-ipfs"],
     });
-
-    await runCLI({
-      args: ["build"],
-      cwd: simpleStoragePath
-    });
-
   });
 
   afterAll(async () => {

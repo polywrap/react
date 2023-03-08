@@ -1,8 +1,13 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import React from "react";
-import { BuilderConfig, ClientConfigBuilder, PolywrapClient } from "@polywrap/client-js";
+/* eslint-disable @typescript-eslint/naming-convention */
 
-type ClientContext = React.Context<PolywrapClient>
+import React from "react";
+import {
+  BuilderConfig,
+  ClientConfigBuilder,
+  PolywrapClient,
+} from "@polywrap/client-js";
+
+type ClientContext = React.Context<PolywrapClient>;
 
 interface PolywrapProviderState {
   ClientContext: ClientContext;
@@ -15,22 +20,21 @@ interface PolywrapProviderMap {
 
 export const PROVIDERS: PolywrapProviderMap = {};
 
-interface PolywrapProviderProps extends Partial<BuilderConfig> { }
+type PolywrapProviderProps = Partial<BuilderConfig>;
 
 export type PolywrapProviderFC = React.FC<PolywrapProviderProps>;
 
-export function createPolywrapProvider(
-  name: string
-): PolywrapProviderFC {
-
+export function createPolywrapProvider(name: string): PolywrapProviderFC {
   // Make sure the provider isn't already set
-  if (!!PROVIDERS[name]) {
-    throw new Error(`A Polywrap provider already exists with the name "${name}"`);
+  if (PROVIDERS[name]) {
+    throw new Error(
+      `A Polywrap provider already exists with the name "${name}"`
+    );
   }
 
   // Reserve the provider slot
   PROVIDERS[name] = {
-    ClientContext: React.createContext({} as PolywrapClient)
+    ClientContext: React.createContext({} as PolywrapClient),
   };
 
   return ({ children, ...config }) => {
@@ -46,7 +50,7 @@ export function createPolywrapProvider(
 
       const builder = new ClientConfigBuilder();
       builder.add(config);
-      const clientConfig = builder.build(); 
+      const clientConfig = builder.build();
       // Instantiate the client
       PROVIDERS[name].client = new PolywrapClient(clientConfig);
 

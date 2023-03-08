@@ -13,14 +13,23 @@
   ],
   "scripts": {
     "build": "rimraf ./build && tsc --project tsconfig.build.json",
-    "lint": "eslint --color -c ./eslintrc.js src/",
+    "lint": "eslint --color -c .eslintrc.js src/",
+    "lint:fix": "yarn lint -- --fix",
     "test": "jest --passWithNoTests --runInBand --verbose --env=./src/__tests__/env/index.ts",
+    "pretest": "cd ./src/__tests__/test-cases/simple-storage && npx polywrap build",
     "test:watch": "yarn test --watch",
-    "publish:npm": "yarn publish --access public --non-interactive --verbose"
+    "publish:npm": "yarn publish --access public --non-interactive --verbose",
+    "publish:pre:npm": "yarn publish --access public --non-interactive --verbose --tag pre"
   },
   "dependencies": {
     "@polywrap/client-js": "0.10.0-pre.10",
-    "@polywrap/core-js": "0.10.0-pre.10"
+    "@polywrap/core-js": "0.10.0-pre.10",
+    "react": "16.9.0"
+  },
+  "peerDependencies": {
+    "@polywrap/client-js": "0.10.x",
+    "@polywrap/core-js": "0.10.x",
+    "react": ">=16.9.x"
   },
   "devDependencies": {
     "@polywrap/ens-resolver-plugin-js": "0.10.0-pre.10",
@@ -34,7 +43,6 @@
     "@types/react-dom": "16.9.0",
     "jest": "26.6.3",
     "ts-jest": "26.5.4",
-    "react": "16.9.0",
     "react-dom": "16.9.0",
     "jest-environment-jsdom": "^26.0.1",
     "polywrap": "0.10.0-pre.10",
@@ -48,11 +56,6 @@
     "eslint-plugin-json": "3.0.0",
     "eslint-plugin-prettier": "3.4.0",
     "prettier": "2.2.1"
-  },
-  "peerDependencies": {
-    "@polywrap/client-js": "0.10.x",
-    "@polywrap/core-js": "0.10.x",
-    "react": ">=16.9.x"
   },
   "resolutions": {
     "@types/react": "16.9.0",

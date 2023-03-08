@@ -8,7 +8,9 @@ export interface UsePolywrapClientProps {
   provider?: string;
 }
 
-export function usePolywrapClient(props?: UsePolywrapClientProps): PolywrapClient {
+export function usePolywrapClient(
+  props?: UsePolywrapClientProps
+): PolywrapClient {
   const provider = props?.provider ?? PRIMARY_PROVIDER;
 
   if (!PROVIDERS[provider]) {
@@ -18,14 +20,12 @@ export function usePolywrapClient(props?: UsePolywrapClientProps): PolywrapClien
   }
 
   // Get the PolywrapClient from the provider in our DOM hierarchy
-  const client = React.useContext(
-    PROVIDERS[provider].ClientContext
-  );
+  const client = React.useContext(PROVIDERS[provider].ClientContext);
 
   if (!client || Object.keys(client).length === 0) {
     throw new Error(
-      `The requested PolywrapProvider \"${provider}\" was not found within the DOM hierarchy. We could not get the PolywrapClient through the provider context.`
-    )
+      `The requested PolywrapProvider "${provider}" was not found within the DOM hierarchy. We could not get the PolywrapClient through the provider context.`
+    );
   }
 
   return client;
