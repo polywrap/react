@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@polywrap/ethereum-provider-js": "0.2.4",
-    "@polywrap/test-env-js": "0.10.0-pre.11",
+    "@polywrap/cli-js": "0.10.0-pre.12",
     "@testing-library/react": "11.2.5",
     "@testing-library/react-hooks": "5.1.0",
     "@types/jest": "26.0.8",

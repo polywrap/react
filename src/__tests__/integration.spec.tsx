@@ -1,7 +1,7 @@
 import { createPolywrapProvider } from "..";
 import { SimpleStorageContainer } from "./app/SimpleStorage";
 
-import { runCLI } from "@polywrap/test-env-js";
+import { runCli } from "@polywrap/cli-js";
 import path from "path";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -25,13 +25,13 @@ describe("Polywrap React Integration", () => {
   let uri: string = `fs/${simpleStoragePath}/build`;
 
   beforeAll(async () => {
-    await runCLI({
+    await runCli({
       args: ["infra", "up", "--modules", "eth-ens-ipfs"],
     });
   });
 
   afterAll(async () => {
-    await runCLI({
+    await runCli({
       args: ["infra", "down", "--modules", "eth-ens-ipfs"],
     });  
   });
