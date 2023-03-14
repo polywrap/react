@@ -19,6 +19,9 @@ describe("Polywrap React Integration", () => {
   let envs: BuilderConfig["envs"] = config.envs;
   let packages: BuilderConfig["packages"] = config.packages;
   let interfaces: BuilderConfig["interfaces"] = config.interfaces;
+  let redirects: BuilderConfig["redirects"] = config.redirects;
+  let resolvers: BuilderConfig["resolvers"] = config.resolvers;
+  let wrappers: BuilderConfig["wrappers"] = config.wrappers;
   let uri: string = `fs/${simpleStoragePath}/build`;
 
   beforeAll(async () => {
@@ -35,7 +38,15 @@ describe("Polywrap React Integration", () => {
 
   it("Deploys, read and write on Smart Contract ", async () => {
     render(
-      <SimpleStorageContainer envs={envs} packages={packages} interfaces={interfaces} uri={uri} />
+      <SimpleStorageContainer
+        envs={envs}
+        packages={packages}
+        interfaces={interfaces}
+        redirects={redirects}
+        resolvers={resolvers}
+        wrappers={wrappers}
+        uri={uri}
+      />
     );
 
     fireEvent.click(screen.getByText("Deploy"));

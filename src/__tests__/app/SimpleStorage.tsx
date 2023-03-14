@@ -74,16 +74,29 @@ const CustomProvider = createPolywrapProvider("custom");
 export const SimpleStorageContainer = ({
   envs,
   packages,
+  interfaces,
+  wrappers,
+  resolvers,
+  redirects,
   uri,
-  interfaces
 }: {
   envs: BuilderConfig["envs"];
   packages: BuilderConfig["packages"];
   interfaces: BuilderConfig["interfaces"];
+  wrappers: BuilderConfig["wrappers"];
+  resolvers: BuilderConfig["resolvers"];
+  redirects: BuilderConfig["redirects"];
   uri: string;
 }) => (
   <CustomProvider>
-    <PolywrapProvider packages={packages} envs={envs} interfaces={interfaces}>
+    <PolywrapProvider
+      packages={packages}
+      envs={envs}
+      interfaces={interfaces}
+      wrappers={wrappers}
+      resolvers={resolvers}
+      redirects={redirects}
+    >
       <SimpleStorage uri={uri} />
     </PolywrapProvider>
   </CustomProvider>

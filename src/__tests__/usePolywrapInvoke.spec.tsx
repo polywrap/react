@@ -19,7 +19,6 @@ import {
   cleanup,
 } from "@testing-library/react-hooks";
 import { getClientConfig } from "./config";
-import { BuilderConfig } from "@polywrap/client-js";
 
 jest.setTimeout(360000);
 
@@ -28,9 +27,6 @@ describe("usePolywrapInvoke hook", () => {
     path.join(__dirname, 'test-cases/simple-storage')
   );
   const config = getClientConfig();
-  let envs: BuilderConfig["envs"] = config.envs;
-  let packages: BuilderConfig["packages"] = config.packages;
-  let interfaces: BuilderConfig["interfaces"] = config.interfaces;
   let uri: Uri = Uri.from(`fs/${simpleStoragePath}/build`);
   let WrapperProvider: RenderHookOptions<unknown>;
 
@@ -41,11 +37,7 @@ describe("usePolywrapInvoke hook", () => {
 
     WrapperProvider = {
       wrapper: PolywrapProvider,
-      initialProps: {
-        envs,
-        packages,
-        interfaces
-      },
+      initialProps: { ...config },
     };
   });
 
