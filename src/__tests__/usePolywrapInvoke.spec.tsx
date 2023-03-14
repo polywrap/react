@@ -91,7 +91,9 @@ describe("usePolywrapInvoke hook", () => {
       },
     };
 
+
     const { data: address } = await executeInvoke<string>(deployInvoke);
+
     const setStorageInvocation: UsePolywrapInvokeProps = {
       uri,
       method: "setData",
