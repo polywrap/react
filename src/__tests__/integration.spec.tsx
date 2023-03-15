@@ -1,7 +1,7 @@
 import { createPolywrapProvider } from "..";
 import { SimpleStorageContainer } from "./app/SimpleStorage";
 
-import { runCLI } from "@polywrap/test-env-js";
+import { runCli } from "@polywrap/cli-js";
 import path from "path";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -19,23 +19,34 @@ describe("Polywrap React Integration", () => {
   let envs: BuilderConfig["envs"] = config.envs;
   let packages: BuilderConfig["packages"] = config.packages;
   let interfaces: BuilderConfig["interfaces"] = config.interfaces;
+  let redirects: BuilderConfig["redirects"] = config.redirects;
+  let resolvers: BuilderConfig["resolvers"] = config.resolvers;
+  let wrappers: BuilderConfig["wrappers"] = config.wrappers;
   let uri: string = `fs/${simpleStoragePath}/build`;
 
   beforeAll(async () => {
-    await runCLI({
+    await runCli({
       args: ["infra", "up", "--modules", "eth-ens-ipfs"],
     });
   });
 
   afterAll(async () => {
-    await runCLI({
+    await runCli({
       args: ["infra", "down", "--modules", "eth-ens-ipfs"],
     });  
   });
 
   it("Deploys, read and write on Smart Contract ", async () => {
     render(
-      <SimpleStorageContainer envs={envs} packages={packages} interfaces={interfaces} uri={uri} />
+      <SimpleStorageContainer
+        envs={envs}
+        packages={packages}
+        interfaces={interfaces}
+        redirects={redirects}
+        resolvers={resolvers}
+        wrappers={wrappers}
+        uri={uri}
+      />
     );
 
     fireEvent.click(screen.getByText("Deploy"));

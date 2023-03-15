@@ -6,36 +6,28 @@ import {
 } from "..";
 import { getClientConfig } from "./config";
 
-import {
-  runCLI,
-} from "@polywrap/test-env-js";
+import { runCli } from "@polywrap/cli-js";
 import { renderHook, RenderHookOptions } from "@testing-library/react-hooks";
-import { BuilderConfig } from '@polywrap/client-js';
 
 jest.setTimeout(360000);
 
 describe("usePolywrapClient hook", () => {
   const config = getClientConfig();
-  let envs: BuilderConfig["envs"] = config.envs;
-  let packages: BuilderConfig["packages"] = config.packages;
   let WrapperProvider: RenderHookOptions<unknown>;
 
   beforeAll(async () => {
-    await runCLI({
+    await runCli({
       args: ["infra", "up", "--modules", "eth-ens-ipfs"],
     });
 
     WrapperProvider = {
       wrapper: PolywrapProvider,
-      initialProps: {
-        envs,
-        packages,
-      },
+      initialProps: { ...config },
     };
   });
 
   afterAll(async () => {
-    await runCLI({
+    await runCli({
       args: ["infra", "down", "--modules", "eth-ens-ipfs"],
     }); 
   });

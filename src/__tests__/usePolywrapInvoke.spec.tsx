@@ -6,10 +6,6 @@ import {
 import { UsePolywrapInvokeProps } from "../invoke";
 
 import { Uri } from "@polywrap/core-js";
-import {
-  stopTestEnvironment,
-  runCLI,
-} from "@polywrap/test-env-js";
 import path from "path";
 
 import {
@@ -19,7 +15,7 @@ import {
   cleanup,
 } from "@testing-library/react-hooks";
 import { getClientConfig } from "./config";
-import { BuilderConfig } from "@polywrap/client-js";
+import { runCli } from "@polywrap/cli-js";
 
 jest.setTimeout(360000);
 
@@ -28,29 +24,24 @@ describe("usePolywrapInvoke hook", () => {
     path.join(__dirname, 'test-cases/simple-storage')
   );
   const config = getClientConfig();
-  let envs: BuilderConfig["envs"] = config.envs;
-  let packages: BuilderConfig["packages"] = config.packages;
-  let interfaces: BuilderConfig["interfaces"] = config.interfaces;
   let uri: Uri = Uri.from(`fs/${simpleStoragePath}/build`);
   let WrapperProvider: RenderHookOptions<unknown>;
 
   beforeAll(async () => {
-    await runCLI({
+    await runCli({
       args: ["infra", "up", "--modules", "eth-ens-ipfs"],
     });
 
     WrapperProvider = {
       wrapper: PolywrapProvider,
-      initialProps: {
-        envs,
-        packages,
-        interfaces
-      },
+      initialProps: { ...config },
     };
   });
 
   afterAll(async () => {
-    await stopTestEnvironment();
+    await runCli({
+      args: ["infra", "down", "--modules", "eth-ens-ipfs"],
+    });
   });
 
   async function executeInvoke<TData>(options: UsePolywrapInvokeProps) {
@@ -99,7 +90,9 @@ describe("usePolywrapInvoke hook", () => {
       },
     };
 
+
     const { data: address } = await executeInvoke<string>(deployInvoke);
+
     const setStorageInvocation: UsePolywrapInvokeProps = {
       uri,
       method: "setData",
