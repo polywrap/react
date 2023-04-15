@@ -1,67 +1,22 @@
 import { createPolywrapProvider } from "..";
-import { SimpleStorageContainer } from "./app/SimpleStorage";
-
-import { runCli } from "@polywrap/cli-js";
-import path from "path";
+import { SimpleInvokes } from "./app/SimpleInvokes";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
-import { BuilderConfig } from "@polywrap/client-js";
-import { getClientConfig } from "./config";
+
 jest.setTimeout(360000);
 
 describe("Polywrap React Integration", () => {
-  const simpleStoragePath = path.resolve(
-    path.join(__dirname, 'test-cases/simple-storage')
-  );
-  const config = getClientConfig();
-  let envs: BuilderConfig["envs"] = config.envs;
-  let packages: BuilderConfig["packages"] = config.packages;
-  let interfaces: BuilderConfig["interfaces"] = config.interfaces;
-  let redirects: BuilderConfig["redirects"] = config.redirects;
-  let resolvers: BuilderConfig["resolvers"] = config.resolvers;
-  let wrappers: BuilderConfig["wrappers"] = config.wrappers;
-  let uri: string = `fs/${simpleStoragePath}/build`;
-
-  beforeAll(async () => {
-    await runCli({
-      args: ["infra", "up", "--modules", "eth-ens-ipfs"],
-    });
-  });
-
-  afterAll(async () => {
-    await runCli({
-      args: ["infra", "down", "--modules", "eth-ens-ipfs"],
-    });  
-  });
-
-  it("Deploys, read and write on Smart Contract ", async () => {
+  it("SimpleInvokes", async () => {
     render(
-      <SimpleStorageContainer
-        envs={envs}
-        packages={packages}
-        interfaces={interfaces}
-        redirects={redirects}
-        resolvers={resolvers}
-        wrappers={wrappers}
-        uri={uri}
-      />
+      <SimpleInvokes />
     );
 
-    fireEvent.click(screen.getByText("Deploy"));
-    await waitFor(() => screen.getByText(/0x/), { timeout: 30000 });
-    expect(screen.getByText(/0x/)).toBeTruthy();
-
-    // check storage is 0
-    fireEvent.click(screen.getByText("Check storage"));
-    await waitFor(() => screen.getByText("0"), { timeout: 30000 });
-    expect(screen.getByText("0")).toBeTruthy();
-
-    // update storage to five and check it
-    fireEvent.click(screen.getByText("Set the storage to 5!"));
-    await waitFor(() => screen.getByText("5"), { timeout: 30000 });
-    expect(screen.getByText("5")).toBeTruthy();
+    fireEvent.click(screen.getByText("Hash"));
+    const hash = /fe74cb04ad93ba10ef51b671778c8327e67a5a728be8c6daa2b4d67d5e43d2e046073a74231182b34414d38ad058beea342fa2e52d977c58de59acdb3a681e04/;
+    await waitFor(() => screen.getByText(hash), { timeout: 30000 });
+    expect(screen.getByText(hash)).toBeTruthy();
 
     // check for both clients (custom & default)
     expect(screen.getByText("Client1 Found")).toBeTruthy();

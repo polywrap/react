@@ -4,32 +4,19 @@ import {
   createPolywrapProvider,
   usePolywrapClient
 } from "..";
-import { getClientConfig } from "./config";
 
-import { runCli } from "@polywrap/cli-js";
 import { renderHook, RenderHookOptions } from "@testing-library/react-hooks";
 
 jest.setTimeout(360000);
 
 describe("usePolywrapClient hook", () => {
-  const config = getClientConfig();
   let WrapperProvider: RenderHookOptions<unknown>;
 
   beforeAll(async () => {
-    await runCli({
-      args: ["infra", "up", "--modules", "eth-ens-ipfs"],
-    });
-
     WrapperProvider = {
       wrapper: PolywrapProvider,
-      initialProps: { ...config },
+      initialProps: { },
     };
-  });
-
-  afterAll(async () => {
-    await runCli({
-      args: ["infra", "down", "--modules", "eth-ens-ipfs"],
-    }); 
   });
 
   it("Should throw error because there's no provider with expected key ", async () => {

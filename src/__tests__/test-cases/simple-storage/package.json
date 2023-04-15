@@ -1,8 +1,0 @@
-{
-    "name": "test-case-simple-storage",
-    "private": true,
-    "dependencies": {
-        "@polywrap/wasm-as": "0.10.0-pre.12",
-        "assemblyscript": "0.19.23"
-    }
-}
