@@ -48,8 +48,10 @@ export function createPolywrapProvider(name: string): PolywrapProviderFC {
         );
       }
 
-      const config = new PolywrapClientConfigBuilder().addBundle("sys").build();
-      PROVIDERS[name].client = new PolywrapClient(config);
+      const builder = new PolywrapClientConfigBuilder()
+        .addBundle("sys")
+        .add(config);
+      PROVIDERS[name].client = new PolywrapClient(builder.build());
 
       setClientCreated(true);
 
