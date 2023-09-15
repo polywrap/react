@@ -1,4 +1,4 @@
-import { Sys } from "@polywrap/client-js";
+import { Sys, Uri } from "@polywrap/client-js";
 import {
   PolywrapProvider,
   usePolywrapClient,
@@ -6,7 +6,6 @@ import {
   usePolywrapInvoke,
 } from "../..";
 
-import { Uri } from "@polywrap/core-js";
 import React from "react";
 
 const CustomProvider = createPolywrapProvider("custom");
