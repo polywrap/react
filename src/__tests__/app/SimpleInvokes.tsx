@@ -1,3 +1,4 @@
+import { Sys } from "@polywrap/client-js";
 import {
   PolywrapProvider,
   usePolywrapClient,
@@ -5,7 +6,6 @@ import {
   usePolywrapInvoke,
 } from "../..";
 
-import { DefaultBundle } from "@polywrap/client-js";
 import { Uri } from "@polywrap/core-js";
 import React from "react";
 
@@ -13,11 +13,11 @@ const CustomProvider = createPolywrapProvider("custom");
 
 function Inner() {
   const { execute, data } = usePolywrapInvoke<string>({
-    uri: Uri.from("ens/wraps.eth:sha3@1.0.0"),
+    uri: Uri.from("wrapscan.io/polywrap/sha3@1.0"),
     method: "sha3_512",
     args: {
-      message: "Hash This!"
-    }
+      message: "Hash This!",
+    },
   });
 
   const client1 = usePolywrapClient();
@@ -39,7 +39,7 @@ function Inner() {
 export function SimpleInvokes() {
   return (
     <CustomProvider>
-      <PolywrapProvider {...DefaultBundle.getConfig()}>
+      <PolywrapProvider {...Sys.bundle}>
         <Inner />
       </PolywrapProvider>
     </CustomProvider>

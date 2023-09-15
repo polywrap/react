@@ -21,13 +21,11 @@
     "publish:pre:npm": "yarn publish --access public --non-interactive --verbose --tag pre"
   },
   "dependencies": {
-    "@polywrap/client-js": "0.10.0",
-    "@polywrap/core-js": "0.10.0",
+    "@polywrap/client-js": "0.12.2",
     "react": "16.9.0"
   },
   "peerDependencies": {
-    "@polywrap/client-js": "0.10.x",
-    "@polywrap/core-js": "0.10.x",
+    "@polywrap/client-js": "0.12.x",
     "react": ">=16.9.x"
   },
   "devDependencies": {

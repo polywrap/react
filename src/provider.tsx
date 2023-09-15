@@ -3,7 +3,7 @@
 import React from "react";
 import {
   BuilderConfig,
-  ClientConfigBuilder,
+  PolywrapClientConfigBuilder,
   PolywrapClient,
 } from "@polywrap/client-js";
 
@@ -48,11 +48,8 @@ export function createPolywrapProvider(name: string): PolywrapProviderFC {
         );
       }
 
-      const builder = new ClientConfigBuilder();
-      builder.add(config);
-      const clientConfig = builder.build();
-      // Instantiate the client
-      PROVIDERS[name].client = new PolywrapClient(clientConfig);
+      const config = new PolywrapClientConfigBuilder().addBundle("sys").build();
+      PROVIDERS[name].client = new PolywrapClient(config);
 
       setClientCreated(true);
 
