@@ -1,7 +1,7 @@
 import { usePolywrapClient } from "./client";
 import { useStateReducer } from "./state";
 
-import { InvokeOptions, isBuffer, InvokeResult } from "@polywrap/core-js";
+import { InvokeOptions, isBuffer, InvokeResult } from "@polywrap/client-js";
 
 export interface UsePolywrapInvokeState<TData = unknown> {
   data?: TData;
